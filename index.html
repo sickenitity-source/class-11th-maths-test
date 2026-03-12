@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Class 11 Maths Hard Test</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#eef2f7;
+margin:40px;
+}
+
+h1{
+text-align:center;
+}
+
+.question{
+background:white;
+padding:15px;
+margin:15px 0;
+border-radius:8px;
+}
+
+#timer{
+position:fixed;
+top:20px;
+right:20px;
+font-size:22px;
+color:red;
+font-weight:bold;
+}
+
+button{
+padding:12px 30px;
+font-size:18px;
+}
+
+#leaderboard{
+margin-top:40px;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Class XI Mathematics Advanced Test</h1>
+
+<div id="timer">180:00</div>
+
+Name:
+<input id="username">
+
+<form id="quiz"></form>
+
+<button onclick="submitTest()">Submit Exam</button>
+
+<h2 id="result"></h2>
+
+<div id="leaderboard">
+<h2>Leaderboard</h2>
+<ol id="board"></ol>
+</div>
+
+<script>
+
+const questions=[
+
+{q:"If A={1,2,3} and B={2,3,4}, find A∩B",o:["{2,3}","{1}","{4}","{1,4}"],a:0,m:1},
+
+{q:"Number of subsets of a set having 4 elements",o:["16","8","32","4"],a:0,m:1},
+
+{q:"Value of sin²30° + cos²30°",o:["1","0","2","1/2"],a:0,m:1},
+
+{q:"Modulus of 1+i",o:["√2","1","2","√3"],a:0,m:1},
+
+{q:"Value of 4C2",o:["6","8","12","4"],a:0,m:1},
+
+{q:"Coefficient of x in (1+x)²",o:["2","1","3","4"],a:0,m:1},
+
+{q:"First term of sequence 5,8,11",o:["5","8","11","3"],a:0,m:1},
+
+{q:"Slope of vertical line",o:["undefined","0","1","infinite"],a:0,m:1},
+
+{q:"Equation x²+y²=9 represents",o:["circle","line","ellipse","parabola"],a:0,m:1},
+
+{q:"sin90° value",o:["1","0","2","-1"],a:0,m:1},
+
+{q:"Value of i²",o:["-1","1","i","0"],a:0,m:1},
+
+{q:"3P2 equals",o:["6","3","9","12"],a:0,m:1},
+
+{q:"Probability maximum value",o:["1","10","100","∞"],a:0,m:1},
+
+{q:"sinθ/cosθ equals",o:["tanθ","secθ","cotθ","sinθ"],a:0,m:1},
+
+{q:"Number of diagonals in quadrilateral",o:["2","4","3","6"],a:0,m:1},
+
+{q:"Value of 2³",o:["8","6","9","4"],a:0,m:1},
+
+{q:"Angle of equilateral triangle",o:["60","90","120","45"],a:0,m:1},
+
+{q:"cos0°",o:["1","0","-1","2"],a:0,m:1},
+
+{q:"Number of permutations of 3 objects",o:["6","3","9","1"],a:0,m:1},
+
+{q:"Mean of numbers formula",o:["sum/n","sum×n","sum−n","n/sum"],a:0,m:1},
+
+{q:"If A={1,2} B={2,3} find A∪B",o:["{1,2,3}","{2}","{1}","{3}"],a:0,m:2},
+
+{q:"Find value of 5P2",o:["20","10","15","25"],a:0,m:2},
+
+{q:"Find middle term in AP 2,4,6,8,10",o:["6","5","4","7"],a:0,m:2},
+
+{q:"Solve sinθ=0",o:["0°","90°","60°","45°"],a:0,m:2},
+
+{q:"Distance between (0,0) and (3,4)",o:["5","4","3","6"],a:0,m:2},
+
+{q:"Find term independent of x in (1+x)(1−x)",o:["1","x²","−1","0"],a:0,m:3},
+
+{q:"Number of arrangements of word CAT",o:["6","3","9","2"],a:0,m:3},
+
+{q:"If cosθ=0 then θ",o:["90°","0°","45°","60°"],a:0,m:3},
+
+{q:"Solve x²−4=0",o:["±2","2","−2","4"],a:0,m:3},
+
+{q:"Sum of first 5 natural numbers",o:["15","10","20","5"],a:0,m:3},
+
+{q:"Slope between (1,1) and (3,5)",o:["2","3","4","1"],a:0,m:3},
+
+{q:"Equation of line through origin slope 3",o:["y=3x","x=3y","y=x","y=2x"],a:0,m:4},
+
+{q:"Area of triangle base4 height3",o:["6","12","7","5"],a:0,m:4},
+
+{q:"Find sum of GP 2+4+8+16",o:["30","28","26","24"],a:0,m:4},
+
+{q:"If P(A)=0.3 find P(not A)",o:["0.7","0.3","1","0"],a:0,m:5},
+
+{q:"Number of ways to arrange 5 objects",o:["120","60","20","100"],a:0,m:5},
+
+{q:"If sinθ=1 then θ",o:["90°","0°","180°","60°"],a:0,m:5},
+
+{q:"Find determinant-like expansion coefficient of x² in (1+x)³",o:["3","2","1","4"],a:0,m:5}
+
+]
+
+let form=document.getElementById("quiz")
+
+questions.forEach((q,i)=>{
+
+let html=`<div class="question"><b>Q${i+1}. ${q.q} (${q.m} marks)</b><br>`
+
+q.o.forEach((opt,j)=>{
+
+html+=`<input type="radio" name="q${i}" value="${j}"> ${opt}<br>`
+
+})
+
+html+="</div>"
+
+form.innerHTML+=html
+
+})
+
+let time=10800
+
+setInterval(()=>{
+
+let m=Math.floor(time/60)
+let s=time%60
+
+document.getElementById("timer").innerHTML=m+":"+("0"+s).slice(-2)
+
+time--
+
+if(time<=0)submitTest()
+
+},1000)
+
+function submitTest(){
+
+let score=0
+
+questions.forEach((q,i)=>{
+
+let ans=document.querySelector(`input[name="q${i}"]:checked`)
+
+if(ans && ans.value==q.a)score+=q.m
+
+})
+
+let name=document.getElementById("username").value||"Anonymous"
+
+document.getElementById("result").innerHTML=name+" scored "+score+" / 80"
+
+let board=JSON.parse(localStorage.getItem("mathBoard"))||[]
+
+board.push({name:name,score:score})
+
+board.sort((a,b)=>b.score-a.score)
+
+board=board.slice(0,10)
+
+localStorage.setItem("mathBoard",JSON.stringify(board))
+
+showBoard()
+
+}
+
+function showBoard(){
+
+let board=JSON.parse(localStorage.getItem("mathBoard"))||[]
+
+let html=""
+
+board.forEach(p=>{
+
+html+="<li>"+p.name+" - "+p.score+"</li>"
+
+})
+
+document.getElementById("board").innerHTML=html
+
+}
+
+showBoard()
+
+</script>
+
+</body>
+</html>
