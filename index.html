@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>Class 11 Maths Hard Test</title>
-
+<title>Class 11 Maths Test</title>
 <style>
-
 body{
 font-family:Arial;
-background:#eef2f7;
-margin:40px;
+background:#f2f2f2;
+padding:20px;
 }
 
 h1{
@@ -20,21 +17,13 @@ text-align:center;
 background:white;
 padding:15px;
 margin:15px 0;
-border-radius:8px;
-}
-
-#timer{
-position:fixed;
-top:20px;
-right:20px;
-font-size:22px;
-color:red;
-font-weight:bold;
+border-radius:10px;
 }
 
 button{
-padding:12px 30px;
+padding:10px 20px;
 font-size:18px;
+margin-top:20px;
 }
 
 #leaderboard{
@@ -43,193 +32,374 @@ background:white;
 padding:20px;
 border-radius:10px;
 }
-
 </style>
-
 </head>
 
 <body>
 
-<h1>Class XI Mathematics Advanced Test</h1>
+<h1>Class 11 Maths Online Test</h1>
 
-<div id="timer">180:00</div>
-
-Name:
-<input id="username">
+<label>Your Name:</label>
+<input id="name" type="text">
 
 <form id="quiz"></form>
 
-<button onclick="submitTest()">Submit Exam</button>
+<button onclick="submitTest()">Submit Test</button>
 
 <h2 id="result"></h2>
 
 <div id="leaderboard">
 <h2>Leaderboard</h2>
-<ol id="board"></ol>
+<ul id="board"></ul>
 </div>
 
 <script>
 
-const questions=[
+const questions = [
 
-{q:"If A={1,2,3} and B={2,3,4}, find A∩B",o:["{2,3}","{1}","{4}","{1,4}"],a:0,m:1},
+{
+q:"If A={1,2,3} and B={2,3,4}, find A∩B",
+options:["{1,2}","{2,3}","{3,4}","{1,4}"],
+answer:1,
+marks:1
+},
 
-{q:"Number of subsets of a set having 4 elements",o:["16","8","32","4"],a:0,m:1},
+{
+q:"Number of subsets of a set with 5 elements",
+options:["10","16","32","25"],
+answer:2,
+marks:1
+},
 
-{q:"Value of sin²30° + cos²30°",o:["1","0","2","1/2"],a:0,m:1},
+{
+q:"|3+4i| equals",
+options:["3","4","5","7"],
+answer:2,
+marks:1
+},
 
-{q:"Modulus of 1+i",o:["√2","1","2","√3"],a:0,m:1},
+{
+q:"Value of 5C2",
+options:["5","10","15","20"],
+answer:1,
+marks:1
+},
 
-{q:"Value of 4C2",o:["6","8","12","4"],a:0,m:1},
+{
+q:"sin²θ + cos²θ equals",
+options:["0","1","2","-1"],
+answer:1,
+marks:1
+},
 
-{q:"Coefficient of x in (1+x)²",o:["2","1","3","4"],a:0,m:1},
+{
+q:"tan45° equals",
+options:["0","1","√3","-1"],
+answer:1,
+marks:1
+},
 
-{q:"First term of sequence 5,8,11",o:["5","8","11","3"],a:0,m:1},
+{
+q:"i⁴ equals",
+options:["1","-1","i","0"],
+answer:0,
+marks:1
+},
 
-{q:"Slope of vertical line",o:["undefined","0","1","infinite"],a:0,m:1},
+{
+q:"Probability of event complement if P(A)=0.7",
+options:["0.7","0.3","1","0"],
+answer:1,
+marks:1
+},
 
-{q:"Equation x²+y²=9 represents",o:["circle","line","ellipse","parabola"],a:0,m:1},
+{
+q:"Slope of line y=3x+5",
+options:["3","5","8","2"],
+answer:0,
+marks:1
+},
 
-{q:"sin90° value",o:["1","0","2","-1"],a:0,m:1},
+{
+q:"4! equals",
+options:["12","24","16","20"],
+answer:1,
+marks:1
+},
 
-{q:"Value of i²",o:["-1","1","i","0"],a:0,m:1},
+{
+q:"Distance between (0,0) and (3,4)",
+options:["4","5","6","7"],
+answer:1,
+marks:1
+},
 
-{q:"3P2 equals",o:["6","3","9","12"],a:0,m:1},
+{
+q:"Value of cos0°",
+options:["0","1","-1","1/2"],
+answer:1,
+marks:1
+},
 
-{q:"Probability maximum value",o:["1","10","100","∞"],a:0,m:1},
+{
+q:"Value of 7C1",
+options:["1","7","14","21"],
+answer:1,
+marks:1
+},
 
-{q:"sinθ/cosθ equals",o:["tanθ","secθ","cotθ","sinθ"],a:0,m:1},
+{
+q:"Number of permutations of 3 objects",
+options:["3","6","9","12"],
+answer:1,
+marks:1
+},
 
-{q:"Number of diagonals in quadrilateral",o:["2","4","3","6"],a:0,m:1},
+{
+q:"Value of tan⁻¹(1)",
+options:["30°","45°","60°","90°"],
+answer:1,
+marks:1
+},
 
-{q:"Value of 2³",o:["8","6","9","4"],a:0,m:1},
+{
+q:"Middle term of AP 2,4,6,8,10",
+options:["4","6","8","10"],
+answer:1,
+marks:1
+},
 
-{q:"Angle of equilateral triangle",o:["60","90","120","45"],a:0,m:1},
+{
+q:"Union of A={1,2} and B={2,3}",
+options:["{1,2,3}","{1,2}","{2,3}","{1,3}"],
+answer:0,
+marks:1
+},
 
-{q:"cos0°",o:["1","0","-1","2"],a:0,m:1},
+{
+q:"Principal argument of 1+i",
+options:["π/4","π/2","π","3π/4"],
+answer:0,
+marks:1
+},
 
-{q:"Number of permutations of 3 objects",o:["6","3","9","1"],a:0,m:1},
+{
+q:"Derivative of x²",
+options:["2x","x","x²","1"],
+answer:0,
+marks:1
+},
 
-{q:"Mean of numbers formula",o:["sum/n","sum×n","sum−n","n/sum"],a:0,m:1},
+{
+q:"Sum of first 5 natural numbers",
+options:["10","15","20","25"],
+answer:1,
+marks:1
+},
 
-{q:"If A={1,2} B={2,3} find A∪B",o:["{1,2,3}","{2}","{1}","{3}"],a:0,m:2},
+{
+q:"Find 6P2",
+options:["15","20","30","36"],
+answer:2,
+marks:2
+},
 
-{q:"Find value of 5P2",o:["20","10","15","25"],a:0,m:2},
+{
+q:"Common difference of AP 3,7,11,15",
+options:["2","3","4","5"],
+answer:2,
+marks:2
+},
 
-{q:"Find middle term in AP 2,4,6,8,10",o:["6","5","4","7"],a:0,m:2},
+{
+q:"Distance between (1,2) and (4,6)",
+options:["3","4","5","6"],
+answer:2,
+marks:2
+},
 
-{q:"Solve sinθ=0",o:["0°","90°","60°","45°"],a:0,m:2},
+{
+q:"Evaluate 8C2",
+options:["28","16","64","12"],
+answer:0,
+marks:2
+},
 
-{q:"Distance between (0,0) and (3,4)",o:["5","4","3","6"],a:0,m:2},
+{
+q:"Find slope joining (2,3) and (5,9)",
+options:["2","3","4","5"],
+answer:1,
+marks:2
+},
 
-{q:"Find term independent of x in (1+x)(1−x)",o:["1","x²","−1","0"],a:0,m:3},
+{
+q:"Solve x²−5x+6=0",
+options:["2,3","1,6","3,4","2,4"],
+answer:0,
+marks:3
+},
 
-{q:"Number of arrangements of word CAT",o:["6","3","9","2"],a:0,m:3},
+{
+q:"Sum of first 10 natural numbers",
+options:["45","55","65","75"],
+answer:1,
+marks:3
+},
 
-{q:"If cosθ=0 then θ",o:["90°","0°","45°","60°"],a:0,m:3},
+{
+q:"Middle term of (1+x)⁶",
+options:["15x³","20x³","10x³","6x³"],
+answer:1,
+marks:3
+},
 
-{q:"Solve x²−4=0",o:["±2","2","−2","4"],a:0,m:3},
+{
+q:"Find 7C3",
+options:["21","35","42","56"],
+answer:1,
+marks:3
+},
 
-{q:"Sum of first 5 natural numbers",o:["15","10","20","5"],a:0,m:3},
+{
+q:"Find sum of GP 2+4+8+16",
+options:["30","28","32","26"],
+answer:0,
+marks:3
+},
 
-{q:"Slope between (1,1) and (3,5)",o:["2","3","4","1"],a:0,m:3},
+{
+q:"Coefficient of x³ in (1+x)⁶",
+options:["10","20","15","6"],
+answer:1,
+marks:3
+},
 
-{q:"Equation of line through origin slope 3",o:["y=3x","x=3y","y=x","y=2x"],a:0,m:4},
+{
+q:"Equation of line slope=3 passing through (1,2)",
+options:["y=3x-1","y=3x+1","y=2x+1","y=3x+2"],
+answer:0,
+marks:4
+},
 
-{q:"Area of triangle base4 height3",o:["6","12","7","5"],a:0,m:4},
+{
+q:"Area of triangle (1,1)(4,5)(6,2)",
+options:["6","7","8","9"],
+answer:2,
+marks:4
+},
 
-{q:"Find sum of GP 2+4+8+16",o:["30","28","26","24"],a:0,m:4},
+{
+q:"Find sum of AP 5,9,13,… 10 terms",
+options:["200","210","230","250"],
+answer:1,
+marks:4
+},
 
-{q:"If P(A)=0.3 find P(not A)",o:["0.7","0.3","1","0"],a:0,m:5},
+{
+q:"Coefficient of x⁴ in (1+x)⁸",
+options:["70","56","28","35"],
+answer:0,
+marks:5
+},
 
-{q:"Number of ways to arrange 5 objects",o:["120","60","20","100"],a:0,m:5},
+{
+q:"Number of ways 6 students sit in row",
+options:["120","240","720","360"],
+answer:2,
+marks:5
+},
 
-{q:"If sinθ=1 then θ",o:["90°","0°","180°","60°"],a:0,m:5},
+{
+q:"Middle term of (1+x)⁸",
+options:["56x⁴","70x⁴","28x⁴","35x⁴"],
+answer:1,
+marks:5
+},
 
-{q:"Find determinant-like expansion coefficient of x² in (1+x)³",o:["3","2","1","4"],a:0,m:5}
+{
+q:"Probability of head in fair coin",
+options:["1","0.5","0.25","2"],
+answer:1,
+marks:5
+}
 
-]
+];
 
-let form=document.getElementById("quiz")
+const quiz=document.getElementById("quiz");
 
 questions.forEach((q,i)=>{
 
-let html=`<div class="question"><b>Q${i+1}. ${q.q} (${q.m} marks)</b><br>`
+let div=document.createElement("div");
+div.className="question";
 
-q.o.forEach((opt,j)=>{
+div.innerHTML=`<p>${i+1}. ${q.q}</p>`;
 
-html+=`<input type="radio" name="q${i}" value="${j}"> ${opt}<br>`
+q.options.forEach((opt,j)=>{
 
-})
+div.innerHTML+=`
+<label>
+<input type="radio" name="q${i}" value="${j}">
+${opt}
+</label><br>
+`;
 
-html+="</div>"
+});
 
-form.innerHTML+=html
+quiz.appendChild(div);
 
-})
-
-let time=10800
-
-setInterval(()=>{
-
-let m=Math.floor(time/60)
-let s=time%60
-
-document.getElementById("timer").innerHTML=m+":"+("0"+s).slice(-2)
-
-time--
-
-if(time<=0)submitTest()
-
-},1000)
+});
 
 function submitTest(){
 
-let score=0
+let score=0;
 
 questions.forEach((q,i)=>{
 
-let ans=document.querySelector(`input[name="q${i}"]:checked`)
+let ans=document.querySelector(`input[name=q${i}]:checked`);
 
-if(ans && ans.value==q.a)score+=q.m
+if(ans && parseInt(ans.value)===q.answer){
+score+=q.marks;
+}
 
-})
+});
 
-let name=document.getElementById("username").value||"Anonymous"
+document.getElementById("result").innerText="Score: "+score;
 
-document.getElementById("result").innerHTML=name+" scored "+score+" / 80"
+let name=document.getElementById("name").value || "Anonymous";
 
-let board=JSON.parse(localStorage.getItem("mathBoard"))||[]
+let board=JSON.parse(localStorage.getItem("board"))||[];
 
-board.push({name:name,score:score})
+board.push({name,score});
 
-board.sort((a,b)=>b.score-a.score)
+board.sort((a,b)=>b.score-a.score);
 
-board=board.slice(0,10)
+localStorage.setItem("board",JSON.stringify(board));
 
-localStorage.setItem("mathBoard",JSON.stringify(board))
-
-showBoard()
+showBoard();
 
 }
 
 function showBoard(){
 
-let board=JSON.parse(localStorage.getItem("mathBoard"))||[]
+let board=JSON.parse(localStorage.getItem("board"))||[];
 
-let html=""
+let ul=document.getElementById("board");
 
-board.forEach(p=>{
+ul.innerHTML="";
 
-html+="<li>"+p.name+" - "+p.score+"</li>"
+board.slice(0,10).forEach(p=>{
 
-})
+let li=document.createElement("li");
 
-document.getElementById("board").innerHTML=html
+li.innerText=p.name+" - "+p.score;
+
+ul.appendChild(li);
+
+});
 
 }
 
-showBoard()
+showBoard();
 
 </script>
 
